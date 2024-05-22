@@ -1,4 +1,3 @@
-//your JS code here. If required.
 // This file is not to be modified. Please ignore this.
 // We will understand all of this later in the course.
 // DO NOT MODIFY THIS FILE
