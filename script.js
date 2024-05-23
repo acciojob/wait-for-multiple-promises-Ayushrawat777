@@ -56,11 +56,13 @@ const promise1 = new Promise((resolve, reject) => {
     const row4 = document.createElement("tr");
     const node4 = document.createElement("td");
     const node44 = document.createElement("td");
-    node4.textContent = "Total";
+    node4.textContent = "Loading...";
+    node44.textContent = "Loading...";
     row4.append(node4, node44);
     fruitList.appendChild(row4);
     const time = 3006;
     setTimeout(() => {
-      node44.textContent = time/1000 
+        node4.textContent = "Total";
+        node44.textContent = time/1000 
     }, time);
   }); 
