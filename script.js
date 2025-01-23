@@ -1,72 +1,39 @@
-const promise1 = new Promise((resolve, reject) => {
-  resolve(2);
-});
-const promise2 = new Promise((resolve, reject) => {
-  resolve(1);
-});
-const promise3 = new Promise((resolve, reject) => {
-  resolve(3);
-});
+const promise1 = new Promise((resolve) => setTimeout(() => resolve(2), 2000));
+const promise2 = new Promise((resolve) => setTimeout(() => resolve(1), 1000));
+const promise3 = new Promise((resolve) => setTimeout(() => resolve(3), 3000));
+
 Promise.all([promise1, promise2, promise3]).then((values) => {
   const fruitList = document.getElementById("output");
 
-  //Row 1
-  const row = document.createElement("tr");
-  row.textContent = "Loading...";
-  fruitList.appendChild(row);
+  // Helper function to create a "Loading..." row
+  function createLoadingRow(rowText) {
+    const row = document.createElement("tr");
+    const col1 = document.createElement("td");
+    const col2 = document.createElement("td");
 
+    col1.textContent = rowText;
+    col2.textContent = "Loading...";
+
+    row.append(col1, col2);
+    fruitList.appendChild(row);
+    return row;
+  }
+
+  // Add "Loading..." rows for promises
+  const row1 = createLoadingRow("Promise 1");
+  const row2 = createLoadingRow("Promise 2");
+  const row3 = createLoadingRow("Promise 3");
+
+  // Add a "Loading..." row for the total
+  const totalRow = createLoadingRow("Total");
+
+  // Update rows with resolved values
   setTimeout(() => {
-    row.textContent = "";
+    row1.children[1].textContent = values[0];
+    row2.children[1].textContent = values[1];
+    row3.children[1].textContent = values[2];
 
-    const node1 = document.createElement("td");
-    const node11 = document.createElement("td");
-    row.append(node1, node11);
-    const a = "       Promise 1      ";
-    node1.textContent = a.trim("");
-    node11.textContent = values[0];
-  }, 2000);
-
-  //Row 2
-  const row2 = document.createElement("tr");
-  row2.textContent = "Loading...";
-  fruitList.appendChild(row2);
-
-  setTimeout(() => {
-    row2.textContent = "";
-    const node2 = document.createElement("td");
-    const node22 = document.createElement("td");
-    row2.append(node2, node22);
-    const b = "       Promise 2      ";
-    node2.textContent = b.trim("");
-    node22.textContent = values[1];
-  }, 1000);
-
-  //Row3
-  const row3 = document.createElement("tr");
-  row3.textContent = "Loading...";
-  fruitList.appendChild(row3);
-  setTimeout(() => {
-    row3.textContent = "";
-    const node3 = document.createElement("td");
-    const node33 = document.createElement("td");
-    row3.append(node3, node33);
-    const c = "       Promise 3      ";
-    node3.textContent = c.trim("");
-    node33.textContent = values[2];
-  }, 3000);
-
-  //Row 4
-  const row4 = document.createElement("tr");
-  row4.textContent = "Loading...";
-  fruitList.appendChild(row4);
-  const time = 3006;
-  setTimeout(() => {
-    row4.textContent = "";
-    const node4 = document.createElement("td");
-    const node44 = document.createElement("td");
-    row4.append(node4, node44);
-    const d = "      Total     ";
-    node4.textContent = d.trim("");
-    node44.textContent = time / 1000;
-  }, time);
+    const totalTime = values[0] + values[1] + values[2];
+    totalRow.children[1].textContent = totalTime.toFixed(3);
+  }, 3006); // Maximum delay for all promises
 });
